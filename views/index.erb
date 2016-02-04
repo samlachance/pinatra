@@ -1,10 +1,2 @@
-<form action="/stream" method="post">
-  <button name="stream" value="http://pubint.ic.llnwd.net/stream/pubint_wutc">NPR</button>
-</form>
-
-<form action="/" method="post">
-  <button name="command" value="pause">Pause</button>
-  <button name="command" value="stop">Stop</button>
-  <button name="command" value="volume +1">Volume Up</button>
-  <button name="command" value="volume -1">Volume Down</button>
-</form>
+<%= erb :_stations %>
+<%= erb :_controls %>

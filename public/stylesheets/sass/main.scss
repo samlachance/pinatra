@@ -1,0 +1,42 @@
+div.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  border: 4px solid black;
+  padding: 10px;
+  font-size: 2em;
+  background-color: transparent;
+}
+
+div.stations {
+
+  button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+div.controls {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+
+  
+  button {
+    border-radius: 100%;
+    width: 70px;
+    height: 70px
+  }
+}
+
