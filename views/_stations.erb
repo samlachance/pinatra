@@ -3,4 +3,16 @@
     <button name="stream" value="http://pubint.ic.llnwd.net/stream/pubint_wutc">NPR</button>
     <button name="stream" value="http://twit.am:80/listen">TWiT</button>
   </form>
+
+  <form action="/stream" method="post">
+    <input type="hidden" name="stream" value="http://pubint.ic.llnwd.net/stream/pubint_wutc">
+    <input type="hidden" name="name" id="NPR">
+    <input type="submit" value="NPR test">
+  </form>
 </div>
+<div><%= @radio.count %></div>
+<ul>
+<% @radio.each do |station| %>
+<li><%= station.name %></li>
+<% end %>
+</ul>

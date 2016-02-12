@@ -1,30 +1,52 @@
-def setup
-  unless File.exist?('/tmp/mplayer-control')
-    `mkfifo /tmp/mplayer-control`
+class Media
+
+  def fifo
+    unless File.exist?('/tmp/mplayer-control')
+      `mkfifo /tmp/mplayer-control`
+    end
+  end
+
+  def play(source)
+    fifo
+    `mplayer -slave -input file=/tmp/mplayer-control #{source}`
+  end
+
+  def self.mplayer(command)
+    `echo "#{command}" > /tmp/mplayer-control`
   end
 end
 
-def mplayer(command)
-  `echo "#{command}" > /tmp/mplayer-control`
+class Podcast < Media
 end
 
-def play(source)
-  setup
-  `mplayer -slave -input file=/tmp/mplayer-control #{source}`
+class Radio < Media
+  attr_accessor :name, :url
+
+  def initialize(name, url)
+    @name = name
+    @url = url
+  end
+
+  def self.all
+    ObjectSpace.each_object(self).to_a
+  end
 end
 
 get '/' do
+  @radio = Radio.all
   erb :index
 end
 
 post '/' do
   command = params[:command].to_s
-  mplayer(command)
+  Media.mplayer(command)
   redirect to("/")
 end
 
 post '/stream' do
-  stream = params[:stream].to_s
-  play(stream)
+  stream = Radio.new("Test", params[:stream].to_s)
+  url = stream.url
+  stream.play(url)
   redirect to("/")
 end
+
