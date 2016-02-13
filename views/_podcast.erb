@@ -1,0 +1,7 @@
+<% @episodes.each do |episode| %>
+  <form action="/stream" method="post">
+    <input type="hidden" name="stream" value="<%= episode.enclosure_url %>">
+    <input type="hidden" name="name" id="<%= episode.title %>">
+    <input type="submit" value="<%= episode.title %>">
+  </form>
+<% end %>
