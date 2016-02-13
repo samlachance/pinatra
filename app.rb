@@ -11,7 +11,7 @@ class Media
   # In order to control mplayer in slave mode it needs a file to read changes from
   # I went ahead and just threw it in /tmp/ because it seemed like the right thing to do
   # This checks to see if that file exists and then creates it if it doesn't
-  def fifo
+  def self.fifo
     unless File.exist?('/tmp/mplayer-control')
       `mkfifo /tmp/mplayer-control`
     end
@@ -19,7 +19,7 @@ class Media
 
   # This method creates the fifo file (if not already present) then, 
   # starts mplayer in slave mode and tells it to watch the fifo file.
-  def play(source)
+  def self.play(source)
     fifo
     `mplayer -slave -input file=/tmp/mplayer-control #{source}`
   end
@@ -63,18 +63,7 @@ class Podcast < Media
   end
 end
 
-# This is a mess
-class Radio < Media
-  attr_accessor :name, :url
-
-  def initialize(name, url)
-    @name = name
-    @url = url
-  end
-end
-
 get '/' do
-  @radio = Radio.all
   erb :index
 end
 
@@ -86,15 +75,14 @@ post '/' do
 end
 
 post '/stream' do
-  stream = Radio.new("Test", params[:stream].to_s)
-  url = stream.url
-  stream.play(url)
+  stream = params[:stream].to_s
+  Media.play(stream)
   redirect back
 end
 
+
 # Below are examples of different podcasts. I wanted them to be on seperate pages because the list of episodes
 # can get long. Doing it this way also allows you to fine tune how many episodes appear in the list
-
 
 get '/sgu' do
   Podcast.spawn("SGU", "http://www.theskepticsguide.org/feed/sgu/") #Spawns the Podcast object
