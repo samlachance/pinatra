@@ -89,7 +89,7 @@ get '/sgu' do
   podcast = Podcast.search_name("SGU") # Finds that object
   podcast.populate # Populates the @episodes variable
   @episodes = podcast.episodes.entries[0..9] # Pulls the first 10 episodes and then stores it for the view
-  erb :sgu # Renders the view
+  erb :podcast # Renders the view
 end
 
 get '/rd' do
@@ -97,6 +97,13 @@ get '/rd' do
   podcast = Podcast.search_name("Reconcilable Differences")
   podcast.populate
   @episodes = podcast.episodes.entries[0..9]
-  erb :sgu
+  erb :podcast
 end
 
+get '/ct' do
+  Podcast.spawn("Car Talk", "http://www.npr.org/rss/podcast.php?id=510208")
+  podcast = Podcast.search_name("Car Talk")
+  podcast.populate
+  @episodes = podcast.episodes.entries[0..9]
+  erb :podcast
+end
