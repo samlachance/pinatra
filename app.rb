@@ -88,7 +88,7 @@ get '/sgu' do
   Podcast.spawn("SGU", "http://www.theskepticsguide.org/feed/sgu/") #Spawns the Podcast object
   podcast = Podcast.search_name("SGU") # Finds that object
   podcast.populate # Populates the @episodes variable
-  @episodes = podcast.episodes.entries[0..9] # Pulls the first 10 episodes and then stores it for the view
+  @episodes = podcast.episodes.entries[0..29] # Pulls the first 10 episodes and then stores it for the view
   erb :podcast # Renders the view
 end
 
@@ -96,7 +96,7 @@ get '/rd' do
   Podcast.spawn("Reconcilable Differences", "https://www.relay.fm/rd/feed")
   podcast = Podcast.search_name("Reconcilable Differences")
   podcast.populate
-  @episodes = podcast.episodes.entries[0..9]
+  @episodes = podcast.episodes.entries[0..29]
   erb :podcast
 end
 

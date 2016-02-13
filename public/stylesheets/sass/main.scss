@@ -1,15 +1,25 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 div.wrapper {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto 120px;
 }
 
 h1 {
   text-align: center;
+  
+  a {
+    text-decoration: none;
+    color: black;
+  }
 }
 
 ul.podcasts {
   list-style: none;
   padding: 0;
+  margin-top: 50px;
 
   li {
     margin-bottom: 10px;
@@ -36,6 +46,7 @@ button, input[type=submit] {
   font-size: 1.4em;
   background-color: transparent;
   margin-bottom: 10px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 div.stations {
@@ -49,6 +60,7 @@ div.stations {
 
 div.controls {
   position: fixed;
+  background-color: white;
   left: 0;
   bottom: 0;
   width: 100%;
