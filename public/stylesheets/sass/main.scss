@@ -7,11 +7,35 @@ h1 {
   text-align: center;
 }
 
-button {
+ul.podcasts {
+  list-style: none;
+  padding: 0;
+
+  li {
+    margin-bottom: 10px;
+
+    a {
+      display: block;
+      width: 100%;
+      border: 4px solid black;
+      padding: 10px;
+      font-size: 1.4em;
+      text-align: center;
+      box-sizing: border-box;
+      text-decoration: none;
+      color: black;
+
+    }
+  }
+}
+
+button, input[type=submit] {
   border: 4px solid black;
   padding: 10px;
-  font-size: 2em;
+  width: 100%;
+  font-size: 1.4em;
   background-color: transparent;
+  margin-bottom: 10px;
 }
 
 div.stations {
