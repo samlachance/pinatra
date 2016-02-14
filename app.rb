@@ -107,3 +107,35 @@ get '/ct' do
   @episodes = podcast.episodes.entries[0..9]
   erb :podcast
 end
+
+get '/rl' do
+  Podcast.spawn("Radio Lab", "http://feeds.wnyc.org/radiolab?format=xml")
+  podcast = Podcast.search_name("Radio Lab")
+  podcast.populate
+  @episodes = podcast.episodes.entries[0..9]
+  erb :podcast
+end
+
+get '/htde' do
+  Podcast.spawn("How to do Everything", "http://www.npr.org/rss/podcast.php?id=510303")
+  podcast = Podcast.search_name("How to do Everything")
+  podcast.populate
+  @episodes = podcast.episodes.entries[0..9]
+  erb :podcast
+end
+
+get '/tfl' do
+  Podcast.spawn("The Flop House", "http://theflophouse.libsyn.com/rss")
+  podcast = Podcast.search_name("The Flop House")
+  podcast.populate
+  @episodes = podcast.episodes.entries[0..9]
+  erb :podcast
+end
+
+get '/otm' do
+  Podcast.spawn("On the Media", "http://www.onthemedia.org/feeds/episodes/")
+  podcast = Podcast.search_name("On the Media")
+  podcast.populate
+  @episodes = podcast.episodes.entries[0..9]
+  erb :podcast
+end
