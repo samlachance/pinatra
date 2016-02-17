@@ -22,12 +22,7 @@ class Media
   def self.play(source)
     fifo
     `mplayer -slave -input file=/tmp/mplayer-control #{source}`
-  end
-
-  def self.podcast(source)
-    fifo
-    `wget -O /tmp/podcast.mp3 #{source}`
-    `mplayer -slave -input file=/tmp/mplayer-control /tmp/podcast.mp3`
+    redirect to('/controls')
   end
 
   # This method allows you to pass in commands for mplayer. Commands can be found with the google
@@ -35,6 +30,7 @@ class Media
     `echo "#{command}" > /tmp/mplayer-control`
   end
 end
+
 
 class Podcast < Media
   attr_accessor :name, :url, :episodes
@@ -63,33 +59,51 @@ class Podcast < Media
     end
   end
 
+  # This method is called when the user wants to play a podcast.
+  # The podcast is downloaded into the /tmp/podcast.mp3 file and
+  # and then passed into the play method. This is done to allow
+  # the user to pause and seek without dropping the stream.
+  def self.podcast(source)
+    `wget -O /tmp/podcast.mp3 #{source}`
+    play("/tmp/podcast.mp3")
+  end
+
   # Call this method on the object to store a current list of episodes in the @episodes variable
   def populate
     self.episodes = fetch(@url)
   end
 end
 
+
 get '/' do
   erb :index
+end
+
+get '/controls' do
+  erb :controls
 end
 
 # The controls post to the '/' directory and then redirect back to where you came from
 post '/' do
   command = params[:command].to_s
   Media.mplayer(command)
-  redirect back
+  redirect to('/controls')
 end
 
+# Normal internet radio streams post to here. The stream source (which is specified in the markup)
+# is then passed into the play method.
 post '/stream' do
   stream = params[:stream].to_s
   Media.play(stream)
-  redirect back
+  redirect to('/controls')
 end
 
+# Podcasts post here. When a source is passed into the podcast method, the file is downloaded
+# and then played locally
 post '/stream-podcast' do
-  podcast = params[:stream_podcast].to_s
-  Media.podcast(podcast)
-  redirect back
+  source = params[:stream_podcast].to_s
+  Podcast.podcast(source)
+  redirect to('/controls')
 end
 
 
