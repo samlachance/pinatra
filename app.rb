@@ -24,6 +24,12 @@ class Media
     `mplayer -slave -input file=/tmp/mplayer-control #{source}`
   end
 
+  def self.podcast(source)
+    fifo
+    `wget -O /tmp/podcast.mp3 #{source}`
+    `mplayer -slave -input file=/tmp/mplayer-control /tmp/podcast.mp3`
+  end
+
   # This method allows you to pass in commands for mplayer. Commands can be found with the google
   def self.mplayer(command)
     `echo "#{command}" > /tmp/mplayer-control`
@@ -77,6 +83,12 @@ end
 post '/stream' do
   stream = params[:stream].to_s
   Media.play(stream)
+  redirect back
+end
+
+post '/stream-podcast' do
+  podcast = params[:stream_podcast].to_s
+  Media.podcast(podcast)
   redirect back
 end
 
